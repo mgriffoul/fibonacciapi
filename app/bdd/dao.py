@@ -1,5 +1,4 @@
 from tinydb import TinyDB, Query
-from tinydb.storages import MemoryStorage
 
 from app.utils.logger_factory import create_logger
 
@@ -25,21 +24,18 @@ def get_fibonacci_number(number):
 
 def get_last_two_documents():
     db_len = len(db)
-    print('DB ALL ====================')
-    print(db.all())
     dict1 = db.all()[db_len - 2]
     dict2 = db.all()[db_len - 1]
-    logger.info('last two number in DB are : ' + str(dict1["value"]) + '  ' + str(dict2["value"]))
     return [dict1, dict2]
 
 
-def insert_fibonacci_number(number):
+def persist_fibonacci_number(number):
     db.insert({'value': number})
 
 
-def find_low_boundaries(number):
-    boundary = Query()
-    results = db.search(boundary.value < number)
+def find_inferior_fibonacci_number(number):
+    inferior_query = Query()
+    results = db.search(inferior_query.value < number)
     number_results = []
     for dict_result in results:
         number_results.append(dict_result['value'])
@@ -48,9 +44,9 @@ def find_low_boundaries(number):
     return max(number_results)
 
 
-def find_high_boundary(number):
-    boundary = Query()
-    results = db.search(boundary.value > number)
+def find_superior_fibonacci_number(number):
+    superior_query = Query()
+    results = db.search(superior_query.value > number)
     number_results = []
     for dict_result in results:
         number_results.append(dict_result['value'])
