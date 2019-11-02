@@ -10,3 +10,4 @@ venv/
 .idea/**/inspectionProfiles
 .idea
 fibonacciapi.iml
+/activity.log
