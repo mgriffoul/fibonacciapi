@@ -1,12 +1,13 @@
 #!flask/bin/python
 
 from flask import Flask, jsonify, request, abort
-
+from flask_cors import CORS, cross_origin
 from app.bdd.dao import init_db
 from app.service import fetch_closest
 from app.utils.logger_factory import create_logger
 
 app = Flask(__name__)
+CORS(app)
 logger = create_logger()
 
 
@@ -16,10 +17,11 @@ def init_app():
     init_db()
 
 
-@app.route('/fibonacci/closer', methods=['GET'])
+@app.route('/fibonacci/closest', methods=['GET'])
+@cross_origin()
 def get_closest_in_fibonacci_sequence():
     try:
-        request_number = request.args.get('number')
+        request_number = request.args.get('requestNumber')
         logger.info('Receiving request for number : ' + str(request_number))
         closest_result = fetch_closest(int(request_number))
         logger.info('Result is : ' + str(closest_result))
